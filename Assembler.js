@@ -109,6 +109,7 @@ for (var i in lines) {  //2nd time: all labels have been added to Symbol Array n
         var instruction = '111';  //all C instructions begin with 111, just common syntax
         var inputVar = input;  //backup of input
         var newInput = input;  //backup of input
+        var jumpbits;
         if (inputVar.includes(';')) {  //has jump bits
             while (inputVar.includes(';')) {  
                 var inputVar = inputVar.substring(1);
@@ -118,32 +119,32 @@ for (var i in lines) {  //2nd time: all labels have been added to Symbol Array n
                     var newInput = newInput.slice(0, -1)
                 }
                 var comp = newInput;
-                if (jmp == 'JGT') {
-                    var jumpbits = '001';
-                }
-                if (jmp == 'JEQ') {
-                    var jumpbits = '010';
-                }
-                if (jmp == 'JGE') {
-                    var jumpbits = '011';
-                }
-                if (jmp == 'JLT') {
-                    var jumpbits = '100';
-                }
-                if (jmp == 'JNE') {
-                    var jumpbits = '101';
-                }
-                if (jmp == 'JLE') {
-                    var jumpbits = '110';
-                }
-                if (jmp == 'JMP') {
-                    var jumpbits = '111';
-                }
-                
-            
-            } else {
-                var jumpbits = '000';
+                switch (jmp) {
+                    case "JGT":
+                        jumpbits = '001';
+                        break;
+                    case "JEQ":
+                        jumpbits = '010';
+                        break;
+                    case "JGE":
+                        jumpbits = '011';
+                        break;
+                    case "JLT": 
+                        jumpbits = '100';
+                        break;
+                    case "JNE": 
+                        jumpbits = '101';
+                        break;
+                    case "JLE":     
+                        jumpbits = '110';
+                        break;
+                    case "JMP": 
+                        jumpbits = '111';
+                        break;
             }
+        } else {
+            jumpbits = '000';
+        }
             var inputVar = input;  //remake backups in case jump bits 
             var newInput = input;
             if (inputVar.includes('=')) {
@@ -165,101 +166,109 @@ for (var i in lines) {  //2nd time: all labels have been added to Symbol Array n
                 }
             }
             }
-                if (dest == '') {
+            switch (dest) {
+                case "": 
                     var destBits = '000';
-                }
-                if (dest == 'M') {
+                    break;
+                case "M": 
                     var destBits = '001';
-                }
-                if (dest == 'D') {
+                    break;
+                case "D":
                     var destBits = '010';
-                }
-                if (dest == 'MD') {
+                    break;
+                case "MD": 
                     var destBits = '011';
-                }
-                if (dest == 'A') {
+                    break;
+                case "A":
                     var destBits = '100';
-                }
-                if (dest == 'AM') {
+                    break;
+                case "AM":
                     var destBits = '101';
-                }
-                if (dest == 'AD') {
+                    break;
+                case "AD": 
                     var destBits = '110';
-                }
-                if (dest == 'AMD') {
+                    break;
+                case "AMD": 
                     var destBits = '111';
-                }
+                    break;
+            }
                 var aone = ['0', '1', '-1', 'D', 'A', '!D', '!A', '-D', '-A', 'D+1', 'A+1', 'D-1', 'A-1',
             'D+A', 'D-A', 'A-D', 'D&A', 'D|A'];
+                var compbits;
                 if (aone.includes(comp)) {
                     var compbits = '0';
                 } else {
                     var compbits = '1';
                 }
-                if (comp == '0') {
-                    compbits = compbits.concat('101010');
-                }
-                if (comp == '1') {
-                    compbits = compbits.concat('111111');
-                }
-                if (comp == '-1') {
-                    compbits = compbits.concat('111010');
-                }
-                if (comp == 'D') {
-                    compbits = compbits.concat('001100');
-                }
-                if (comp == 'A' || comp == 'M') {
-                    compbits = compbits.concat('110000');
-                }
-                if (comp == '!D') {
-                    var compbits = compbits.concat('001101');
-                }
-                if (comp == '!A' || comp == '!M') {
-                    var compbits = compbits.concat('110001');
-                }
-                if (comp == '-D') {
-                    var compbits = compbits.concat('001111');
-                }
-                if (comp == '-A' || comp == '-M') {
-                    var compbits = compbits.concat('110011');
-                }
-                if (comp == 'D+1') {
-                    var compbits = compbits.concat('011111');
-                }
-                if (comp == 'A+1' || comp == 'M+1') {
-                    var compbits = compbits.concat('110111');
-                }
-                if (comp == 'D-1') {
-                    var compbits = compbits.concat('001110');
-                }
-                if (comp == 'A-1' || comp == 'M-1') {
-                    var compbits = compbits.concat('110010');
-                }
-                if (comp == 'D+A' || comp == 'D+M') {
-                    var compbits = compbits.concat('000010');
-                }
-                if (comp == 'D-A' || comp == 'D-M') {
-                    var compbits = compbits.concat('010011');
-                }
-                if (comp == 'A-D' || comp == 'M-D') {
-                    var compbits = compbits.concat('000111');
-                }
-                if (comp == 'D&A' || comp == 'D&M') {
-                    var compbits = compbits.concat('000000');
-                }
-                if (comp == 'D|A' || comp == 'D|M') {
-                    var compbits = compbits.concat('010101');
-                }
+                switch (comp) {
+                    case "0": 
+                        compbits = compbits.concat('101010');
+                        break;
+                    case "1": 
+                        compbits = compbits.concat('111111');
+                        break;
+                    case "-1": 
+                        compbits = compbits.concat('111010');
+                        break;
+                    case "D": 
+                        compbits = compbits.concat('001100');
+                        break;
+                    case "A":
+                    case "M":
+                        compbits = compbits.concat('110000');
+                        break;
+                    case "!D": 
+                        compbits = compbits.concat('001101');
+                        break;
+                    case "!A": 
+                    case "!M": 
+                        compbits = compbits.concat('110001');
+                        break;
+                    case "-D": 
+                        compbits = compbits.concat('001111');
+                        break;
+                    case "-A": 
+                    case "-M": 
+                        compbits = compbits.concat('110011');
+                        break;
+                    case "D+1": 
+                        compbits = compbits.concat('011111');
+                        break;
+                    case "A+1": 
+                    case "M+1": 
+                        compbits = compbits.concat('110111');
+                        break;
+                    case "D-1": 
+                        compbits = compbits.concat('001110');
+                        break;
+                    case "A-1": 
+                    case "M-1":
+                        compbits = compbits.concat('110010');
+                        break;
+                    case "D+A":  
+                    case "D+M": 
+                        compbits = compbits.concat('000010');
+                        break;
+                    case "D-A": 
+                    case "D-M": 
+                        compbits = compbits.concat('010011');
+                        break;
+                    case "A-D":  
+                    case "M-D":
+                        compbits = compbits.concat('000111');
+                        break;
+                    case "D&A":
+                    case "D&M": 
+                        compbits = compbits.concat('000000');
+                        break;
+                    case "D|A":
+                    case "D|M": 
+                        compbits = compbits.concat('010101');
+                        break;
+            }
             var returnValue = instruction.concat(compbits, destBits, jumpbits);
             var parsed = parseInt(returnValue, 2);
-            writeBuf(writeFD, parsed);
-
-
-           
-            
-                
-        
-        
+            writeBuf(writeFD, parsed);       
         
         }
     }
