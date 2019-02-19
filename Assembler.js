@@ -1,5 +1,5 @@
 const fs = require('fs');  //make filestream constant
-var filename = 'projects/06/Assembler/pong/Pong.asm' //input file name
+var filename = 'projects/04/div/div.asm' //input file name
 writeFD = fs.openSync('projects/06/Assembler/Output/test.hack', 'w+'); //writeStream or writeopenSync with output file, (test.hack);
 var linenumber = 0;  //line counter
 var startvar = 16;
@@ -56,6 +56,16 @@ for (var i in lines) {  //var i = line number, but counts comments, so we build 
         continue;
     }
     if (input[0] == '(') {  //if label: remove parentheses from both sides, then return label with linecounter.
+        if (input.includes('/')) {
+            while (input.includes('/')) {
+                input = input.slice(0, -1);
+            }
+        }
+        if (input.includes(' ')) {
+            while (input.includes(' ')) {
+                input = input.replace(' ', '');
+            }
+        }
         var loop = input;
         var loop = loop.replace('(', '');
         var loop = loop.replace(')', '');
@@ -165,7 +175,7 @@ for (var i in lines) {  //2nd time: all labels have been added to Symbol Array n
                     var comp = comp.slice(0, -1);
                 }
             }
-            }
+            } 
             switch (dest) {
                 case "": 
                     var destBits = '000';
