@@ -1,5 +1,5 @@
 const fs = require('fs');  //make filestream constant
-var filename = 'projects/04/div/div.asm' //input file name
+var filename = 'projects/06/Assembler/pong/Pong.asm' //input file name
 writeFD = fs.openSync('projects/06/Assembler/Output/test.hack', 'w+'); //writeStream or writeopenSync with output file, (test.hack);
 var linenumber = 0;  //line counter
 var startvar = 16;
@@ -120,12 +120,12 @@ for (var i in lines) {  //2nd time: all labels have been added to Symbol Array n
         var inputVar = input;  //backup of input
         var newInput = input;  //backup of input
         var jumpbits;
-        if (inputVar.includes(';')) {  //has jump bits
-            while (inputVar.includes(';')) {  
+        if (inputVar.includes(';') || inputVar.includes(',')) {  //has jump bits
+            while (inputVar.includes(';') || inputVar.includes(',')) {  
                 var inputVar = inputVar.substring(1);
             }
                 var jmp = inputVar;
-                while (newInput.includes(';')) {
+                while (newInput.includes(';') || newInput.includes(',')) {
                     var newInput = newInput.slice(0, -1)
                 }
                 var comp = newInput;
@@ -170,7 +170,7 @@ for (var i in lines) {  //2nd time: all labels have been added to Symbol Array n
                     var newInput = newInput.substring(1);
                 }
             var comp = newInput;
-            if (input.includes('=') && input.includes(';')) {
+            if (input.includes('=') && input.includes(';') || input.includes(',')) {
                 while (comp.includes(';')) {
                     var comp = comp.slice(0, -1);
                 }
